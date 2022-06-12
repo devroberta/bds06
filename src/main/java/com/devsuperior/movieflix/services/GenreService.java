@@ -1,7 +1,8 @@
 package com.devsuperior.movieflix.services;
 
 import com.devsuperior.movieflix.dto.GenreDTO;
-import com.devsuperior.movieflix.entities.Genre;
+import com.devsuperior.movieflix.dto.GenreMintDTO;
+import com.devsuperior.movieflix.projections.GenreMinProjection;
 import com.devsuperior.movieflix.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class GenreService {
   private GenreRepository repository;
 
   @Transactional(readOnly=true)
-  public List<GenreDTO> findAll() {
-    List<Genre> list = repository.findAll();
-    return list.stream().map(x -> new GenreDTO(x)).collect(Collectors.toList());
+  public List<GenreMintDTO> findAll() {
+    List<GenreMinProjection> list = repository.findAllGenre();
+    return list.stream().map(x -> new GenreMintDTO(x)).collect(Collectors.toList());
   }
 }

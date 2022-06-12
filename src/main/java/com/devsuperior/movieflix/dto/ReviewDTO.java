@@ -11,23 +11,23 @@ public class ReviewDTO {
   private Long id;
   private String text;
   private User user;
-  private Movie movie;
+  private Long movieId;
 
   public ReviewDTO() {
   }
 
-  public ReviewDTO(Long id, String text, User user, Movie movie) {
+  public ReviewDTO(Long id, String text, User user, Long movieId) {
     this.id = id;
     this.text = text;
     this.user = user;
-    this.movie = movie;
+    this.movieId = movieId;
   }
 
   public ReviewDTO(Review review) {
     id = review.getId();
     text = review.getText();
     user = review.getUser();
-    movie = review.getMovie();
+    movieId = review.getMovie().getId();
   }
 
   public Long getId() {
@@ -54,16 +54,11 @@ public class ReviewDTO {
     this.user = user;
   }
 
-  public Movie getMovie() {
-    return movie;
+  public Long getMovieId(){
+    return movieId;
   }
-
-  public void setMovie(Movie movie) {
-    this.movie = movie;
-  }
-
   public void setMovieId(Long movieId) {
-    movie.setId(movieId);
+    this.movieId = movieId;
   }
 
   @Override

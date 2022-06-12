@@ -2,6 +2,7 @@ package com.devsuperior.movieflix.dto;
 
 import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.projections.GenreMinProjection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,10 @@ public class GenreDTO {
   public GenreDTO(Genre genre) {
     id = genre.getId();
     name = genre.getName();
-    movies = genre.getMovies();
+  }
+
+  public GenreDTO(GenreMinProjection projection) {
+    name = projection.getName();
   }
 
   public Long getId() {
