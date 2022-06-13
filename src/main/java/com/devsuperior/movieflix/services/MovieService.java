@@ -30,7 +30,7 @@ public class MovieService {
   public MovieDTO findById(Long id) {
     Optional<Movie> obj = repository.findById(id);
     Movie movie = obj.orElseThrow(() -> new ResourceNotFoundException("Movie not found."));
-    return new MovieDTO(movie, movie.getReviews());
+    return new MovieDTO(movie);
   }
 
   /*@Transactional(readOnly=true)

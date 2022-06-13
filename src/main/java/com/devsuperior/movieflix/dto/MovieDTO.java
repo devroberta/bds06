@@ -16,8 +16,7 @@ public class MovieDTO {
   private Integer year;
   private String imgUrl;
   private String synopsis;
-  private List<ReviewDTO> reviews = new ArrayList<>();
-  private Genre genre;
+  private GenreDTO genreDTO;
 
   public MovieDTO() {
   }
@@ -38,11 +37,7 @@ public class MovieDTO {
     year = movie.getYear();
     imgUrl = movie.getImgUrl();
     synopsis = movie.getSynopsis();
-  }
-
-  public MovieDTO(Movie movie, List<Review> reviews) {
-    this(movie);
-    reviews.forEach(x -> this.reviews.add(new ReviewDTO(x)));
+    genreDTO = new GenreDTO(movie.getGenre());
   }
 
   public Long getId() {
@@ -93,16 +88,12 @@ public class MovieDTO {
     this.synopsis = synopsis;
   }
 
-  public List<ReviewDTO> getReviews() {
-    return reviews;
+  public GenreDTO getGenreDTO() {
+    return genreDTO;
   }
 
-  public Genre getGenre() {
-    return genre;
-  }
-
-  public void setGenre(Genre genre) {
-    this.genre = genre;
+  public void setGenreDTO(GenreDTO genreDTO) {
+    this.genreDTO = genreDTO;
   }
 
   @Override
