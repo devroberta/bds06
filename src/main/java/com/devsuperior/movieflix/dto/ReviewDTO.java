@@ -3,6 +3,7 @@ package com.devsuperior.movieflix.dto;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
+import com.devsuperior.movieflix.projections.ReviewMinProjection;
 
 import java.util.Objects;
 
@@ -11,23 +12,38 @@ public class ReviewDTO {
   private Long id;
   private String text;
   private User user;
+  private Movie movie;
   private Long movieId;
 
   public ReviewDTO() {
   }
 
-  public ReviewDTO(Long id, String text, User user, Long movieId) {
+  public ReviewDTO(Long id, String text, Long movieId) {
     this.id = id;
     this.text = text;
-    this.user = user;
-    this.movieId = movieId;
+    movie.setId(movieId);
   }
 
   public ReviewDTO(Review review) {
     id = review.getId();
     text = review.getText();
     user = review.getUser();
-    movieId = review.getMovie().getId();
+    movie.setId(review.getMovie().getId());
+  }
+
+  public ReviewDTO(ReviewMinProjection review) {
+    id = review.getId();
+    text = review.getText();
+   // user = review.getUser();
+    movie.setId(review.getMovieId());
+  }
+
+
+  public ReviewDTO(Long id, String text, User user, Movie movie) {
+    this.id = id;
+    this.text = text;
+    this.user = user;
+    this.movie = movie;
   }
 
   public Long getId() {
@@ -54,9 +70,18 @@ public class ReviewDTO {
     this.user = user;
   }
 
-  public Long getMovieId(){
+  public Movie getMovie() {
+    return movie;
+  }
+
+  public void setMovie(Movie movie) {
+    this.movie = movie;
+  }
+
+  public Long getMovieId() {
     return movieId;
   }
+
   public void setMovieId(Long movieId) {
     this.movieId = movieId;
   }

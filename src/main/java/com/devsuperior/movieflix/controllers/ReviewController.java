@@ -22,9 +22,9 @@ public class ReviewController {
   @Autowired
   private ReviewService service;
 
-@PreAuthorize("hasAnyRole('MEMBER')")
+  @PreAuthorize("hasAnyRole('MEMBER')")
   @PostMapping
-  public ResponseEntity<ReviewDTO> insert(@Valid @RequestBody ReviewDTO dto) {
+  public ResponseEntity<ReviewDTO> insert(@RequestBody ReviewDTO dto) {
     dto = service.insert(dto);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").buildAndExpand(dto.getId()).toUri();

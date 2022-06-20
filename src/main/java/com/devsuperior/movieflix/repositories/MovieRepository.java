@@ -1,10 +1,12 @@
 package com.devsuperior.movieflix.repositories;
 
-import com.devsuperior.movieflix.dto.MovieDTO;
 import com.devsuperior.movieflix.dto.MovieMinDTO;
+import com.devsuperior.movieflix.dto.ReviewDTO;
 import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.entities.User;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,10 +15,9 @@ import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
- /* @Query("SELECT new com.devsuperior.movieflix.dto.MovieMinDTO( " +
-          "obj.title, obj.subTitle, obj.year, obj.imgUrl) "
-          + "FROM Movie obj "
-          + "WHERE obj.genre.id = :genreId "
+ @Query("SELECT DISTINCT  obj "
+          + "FROM Movie obj INNER JOIN obj.genre genres "
+          + "WHERE COALESCE (:genres) IS NULL OR genres IN :genres "
           + "ORDER BY obj.title")
-  Page<MovieMinDTO> findMovieByGenre(Long genreId);*/
+  Page<Movie> findMovieByGenre(List<Genre> genres, Pageable pageable);
 }

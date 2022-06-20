@@ -2,10 +2,14 @@ package com.devsuperior.movieflix.controllers;
 
 import com.devsuperior.movieflix.dto.MovieDTO;
 import com.devsuperior.movieflix.dto.MovieMinDTO;
+import com.devsuperior.movieflix.dto.ReviewDTO;
+import com.devsuperior.movieflix.dto.ReviewMovieDTO;
 import com.devsuperior.movieflix.services.MovieService;
+import com.devsuperior.movieflix.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,22 +24,29 @@ import java.util.List;
 public class MovieController {
 
   @Autowired
-  private MovieService service;
+  private MovieService serviceMovie;
+
+  @Autowired
+  private ReviewService serviceReview;
 
   @GetMapping(value = "/{id}")
   public ResponseEntity<MovieDTO> findById(@PathVariable Long id) {
-    MovieDTO dto = service.findById(id);
+    MovieDTO dto = serviceMovie.findById(id);
     return ResponseEntity.ok().body(dto);
   }
 
-  /*@GetMapping
+  @GetMapping("/{movieId}/reviews")
+  public ResponseEntity<List<ReviewMovieDTO>> findMovieByReview(@PathVariable Long movieId) {
+    List<ReviewMovieDTO> list = serviceReview.findReviewByMovie(movieId);
+    return ResponseEntity.ok(list);
+  }
+
+  @GetMapping
   public ResponseEntity<Page<MovieMinDTO>> findMovieByGenre (
           @RequestParam(value = "genreId", defaultValue = "0") Long genreId,
-          @RequestParam(value = "page", defaultValue = "0") Integer page,
-          @RequestParam(value = "linePerPage", defaultValue = "5") Integer linePerPage) {
+          Pageable pageable) {
 
-    PageRequest pageRequest = PageRequest.of(page, linePerPage);
-    Page<MovieMinDTO> list = service.findMovieByGenre(genreId, pageRequest);
-    return ResponseEntity.ok().body(list);
-  }*/
+    Page<MovieMinDTO> page = serviceMovie.findMovieByGenre(genreId, pageable);
+    return ResponseEntity.ok().body(page);
+  }
 }
