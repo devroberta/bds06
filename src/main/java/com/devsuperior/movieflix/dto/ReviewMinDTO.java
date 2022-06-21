@@ -1,30 +1,31 @@
 package com.devsuperior.movieflix.dto;
 
-import com.devsuperior.movieflix.entities.Movie;
-import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
 
 import java.util.Objects;
 
-public class ReviewMovieDTO {
+public class ReviewMinDTO {
 
   private Long id;
   private String text;
   private Long movieId;
+  private Long userId;
 
-  public ReviewMovieDTO() {
+  public ReviewMinDTO() {
   }
 
-  public ReviewMovieDTO(Long id, String text, Long movieId) {
+  public ReviewMinDTO(Long id, String text, Long movieId, Long userId) {
     this.id = id;
     this.text = text;
     this.movieId = movieId;
+    this.userId = userId;
   }
 
-  public ReviewMovieDTO(ReviewMinProjection projection) {
+  public ReviewMinDTO(ReviewMinProjection projection) {
     id = projection.getId();
     text = projection.getText();
+    userId = projection.getUserId();
     movieId = projection.getMovieId();
   }
 
@@ -52,11 +53,19 @@ public class ReviewMovieDTO {
     this.movieId = movieId;
   }
 
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ReviewMovieDTO that = (ReviewMovieDTO) o;
+    ReviewMinDTO that = (ReviewMinDTO) o;
     return Objects.equals(id, that.id);
   }
 

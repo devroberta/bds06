@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-  @Query(nativeQuery = true, value = "SELECT tb_review.id, tb_review.text, tb_review.movie_id "
+  @Query(nativeQuery = true, value = "SELECT tb_review.id, tb_review.text, tb_review.movie_id, tb_review.user_id "
           +"FROM tb_review "
-          +"WHERE tb_review.movie_id = :movieId")
+          +"WHERE tb_review.movie_id LIKE (:movieId)")
   List<ReviewMinProjection> findReviewByMovieId(Long movieId);
 }

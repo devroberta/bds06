@@ -1,24 +1,16 @@
 package com.devsuperior.movieflix.services;
 
-import com.devsuperior.movieflix.dto.MovieMinDTO;
 import com.devsuperior.movieflix.dto.ReviewDTO;
-import com.devsuperior.movieflix.dto.ReviewMovieDTO;
-import com.devsuperior.movieflix.entities.Genre;
-import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.dto.ReviewMinDTO;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.repositories.ReviewRepository;
-import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
-import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,9 +25,9 @@ public class ReviewService {
   private AuthService authService;
 
   @Transactional(readOnly=true)
-  public List<ReviewMovieDTO> findReviewByMovie(Long movieId) {
+  public List<ReviewMinDTO> findReviewByMovie(Long movieId) {
     List<ReviewMinProjection> list = repository.findReviewByMovieId(movieId);
-    List<ReviewMovieDTO> result = list.stream().map(x -> new ReviewMovieDTO(x)).collect(Collectors.toList());
+    List<ReviewMinDTO> result = list.stream().map(x -> new ReviewMinDTO(x)).collect(Collectors.toList());
     return result;
   }
 
