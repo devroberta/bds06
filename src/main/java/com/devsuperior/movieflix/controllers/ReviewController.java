@@ -1,6 +1,7 @@
 package com.devsuperior.movieflix.controllers;
 
 import com.devsuperior.movieflix.dto.ReviewDTO;
+import com.devsuperior.movieflix.dto.ReviewMinDTO;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ReviewController {
 
   @PreAuthorize("hasAnyRole('MEMBER')")
   @PostMapping
-  public ResponseEntity<ReviewDTO> insert(@RequestBody ReviewDTO dto) {
+  public ResponseEntity<ReviewMinDTO> insert(@RequestBody ReviewMinDTO dto) {
     dto = service.insert(dto);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").buildAndExpand(dto.getId()).toUri();

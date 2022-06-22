@@ -12,7 +12,6 @@ public class ReviewDTO {
   private Long id;
   private String text;
   private User user;
-  private Movie movie;
   private Long movieId;
 
   public ReviewDTO() {
@@ -21,21 +20,21 @@ public class ReviewDTO {
   public ReviewDTO(Long id, String text, Long movieId) {
     this.id = id;
     this.text = text;
-    movie.setId(movieId);
+    this.movieId = movieId;
   }
 
   public ReviewDTO(Review review) {
     id = review.getId();
     text = review.getText();
+    movieId = review.getMovie().getId();
     user = review.getUser();
-    movie.setId(review.getMovie().getId());
   }
 
   public ReviewDTO(ReviewMinProjection review) {
     id = review.getId();
     text = review.getText();
-   // user = review.getUser();
-    movie.setId(review.getMovieId());
+    //user = review.getUser();
+    movieId = review.getMovieId();
   }
 
 
@@ -43,7 +42,7 @@ public class ReviewDTO {
     this.id = id;
     this.text = text;
     this.user = user;
-    this.movie = movie;
+    this.movieId = movie.getId();
   }
 
   public Long getId() {
@@ -68,14 +67,6 @@ public class ReviewDTO {
 
   public void setUser(User user) {
     this.user = user;
-  }
-
-  public Movie getMovie() {
-    return movie;
-  }
-
-  public void setMovie(Movie movie) {
-    this.movie = movie;
   }
 
   public Long getMovieId() {

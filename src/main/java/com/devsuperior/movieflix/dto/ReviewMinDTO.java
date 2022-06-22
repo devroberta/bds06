@@ -1,5 +1,7 @@
 package com.devsuperior.movieflix.dto;
 
+import com.devsuperior.movieflix.entities.Movie;
+import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
 
@@ -10,23 +12,30 @@ public class ReviewMinDTO {
   private Long id;
   private String text;
   private Long movieId;
-  private Long userId;
+  private UserDTO user;
 
   public ReviewMinDTO() {
   }
 
-  public ReviewMinDTO(Long id, String text, Long movieId, Long userId) {
+  public ReviewMinDTO(Long id, String text, Long movieId, UserDTO userDTO) {
     this.id = id;
     this.text = text;
     this.movieId = movieId;
-    this.userId = userId;
+    this.user = userDTO;
   }
 
-  public ReviewMinDTO(ReviewMinProjection projection) {
+  public ReviewMinDTO(ReviewMinProjection projection, Movie movie, User user) {
     id = projection.getId();
     text = projection.getText();
-    userId = projection.getUserId();
-    movieId = projection.getMovieId();
+    this.user = new UserDTO(user);
+    movieId = movie.getId();
+  }
+
+  public ReviewMinDTO(Review review) {
+    id = review.getId();
+    text = review.getText();
+    user = new UserDTO(review.getUser());
+    movieId = review.getMovie().getId();
   }
 
   public Long getId() {
@@ -53,12 +62,12 @@ public class ReviewMinDTO {
     this.movieId = movieId;
   }
 
-  public Long getUserId() {
-    return userId;
+  public UserDTO getUser() {
+    return user;
   }
 
-  public void setUserId(Long userId) {
-    this.userId = userId;
+  public void setUser(UserDTO user) {
+    this.user = user;
   }
 
   @Override

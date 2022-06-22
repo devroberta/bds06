@@ -2,6 +2,7 @@ package com.devsuperior.movieflix.services;
 
 import com.devsuperior.movieflix.dto.ReviewDTO;
 import com.devsuperior.movieflix.dto.ReviewMinDTO;
+import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,21 +28,25 @@ public class ReviewService {
 
   @Transactional(readOnly=true)
   public List<ReviewMinDTO> findReviewByMovie(Long movieId) {
+    User user = authService.authenticated();
+    Optional<Movie> movie = movieRepository.findById(movieId);
     List<ReviewMinProjection> list = repository.findReviewByMovieId(movieId);
-    List<ReviewMinDTO> result = list.stream().map(x -> new ReviewMinDTO(x)).collect(Collectors.toList());
+    List<ReviewMinDTO> result =
+            list.stream().map(x -> new ReviewMinDTO(x, movie.get(), user)).collect(Collectors.toList());
     return result;
   }
 
   @Transactional
-  public ReviewDTO insert(ReviewDTO dto) {
+  public ReviewMinDTO insert(ReviewMinDTO dto) {
 
     User user = authService.authenticated();
-
+    Optional<Movie> movie = movieRepository.findById(dto.getMovieId());
     Review review = new Review();
-    review.setMovie(movieRepository.getOne(dto.getMovie().getId()));
-    review.setUser(user);
     review.setText(dto.getText());
+    review.setMovie(movie.get());
+    review.setUser(user);
     review = repository.save(review);
-    return new ReviewDTO(review);
+
+    return new ReviewMinDTO(review);
   }
 }

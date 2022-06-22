@@ -1,5 +1,8 @@
 package com.devsuperior.movieflix.entities;
 
+import com.devsuperior.movieflix.dto.ReviewDTO;
+import com.devsuperior.movieflix.dto.ReviewMinDTO;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,19 +24,28 @@ public class Review implements Serializable {
   private String text;
 
   @ManyToOne
-  @JoinColumn(name="user_id")
-  private User user;
-
-  @ManyToOne
   @JoinColumn(name = "movie_id")
   private Movie movie;
+
+  @ManyToOne
+  @JoinColumn(name="user_id")
+  private User user;
 
   public Review() {
   }
 
-  public Review(Long id, String text) {
+  public Review(Long id, String text, Movie movie, User user) {
     this.id = id;
     this.text = text;
+    this.movie = movie;
+    this.user = user;
+  }
+
+  public Review(ReviewMinDTO reviewDTO) {
+    id = reviewDTO.getId();
+    text = reviewDTO.getText();
+    movie.setId(reviewDTO.getMovieId());
+    user.setId(reviewDTO.getUser().getId());
   }
 
   public Long getId() {
