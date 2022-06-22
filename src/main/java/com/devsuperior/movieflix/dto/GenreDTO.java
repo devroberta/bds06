@@ -1,11 +1,8 @@
 package com.devsuperior.movieflix.dto;
 
 import com.devsuperior.movieflix.entities.Genre;
-import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.projections.GenreMinProjection;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class GenreDTO {

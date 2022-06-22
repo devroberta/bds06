@@ -1,5 +1,6 @@
 package com.devsuperior.movieflix.controllers.exceptions;
 
+import com.devsuperior.movieflix.services.exceptions.DatabaseException;
 import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 import com.devsuperior.movieflix.services.exceptions.UnauthorizedException;
@@ -21,6 +22,19 @@ public class ResourceExceptionHandler {
     err.setTimestamp(Instant.now());
     err.setStatus(status.value());
     err.setError("Requisição não encontrada");
+    err.setMessage(e.getMessage());
+    err.setPath(request.getRequestURI());
+    return ResponseEntity.status(status).body(err);
+  }
+
+
+  @ExceptionHandler(DatabaseException.class)
+  public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+    StandardError err = new StandardError();
+    err.setTimestamp(Instant.now());
+    err.setStatus(status.value());
+    err.setError("Database exception");
     err.setMessage(e.getMessage());
     err.setPath(request.getRequestURI());
     return ResponseEntity.status(status).body(err);

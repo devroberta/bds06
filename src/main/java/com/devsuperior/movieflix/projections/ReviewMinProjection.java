@@ -8,7 +8,5 @@ public interface ReviewMinProjection {
 
   String getText();
 
-  Long getUserId();
-
   Long getMovieId();
 }

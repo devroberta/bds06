@@ -1,6 +1,5 @@
 package com.devsuperior.movieflix.services;
 
-import com.devsuperior.movieflix.dto.GenreDTO;
 import com.devsuperior.movieflix.dto.GenreMintDTO;
 import com.devsuperior.movieflix.projections.GenreMinProjection;
 import com.devsuperior.movieflix.repositories.GenreRepository;

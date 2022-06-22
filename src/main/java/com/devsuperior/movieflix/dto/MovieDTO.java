@@ -1,11 +1,7 @@
 package com.devsuperior.movieflix.dto;
 
-import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
-import com.devsuperior.movieflix.entities.Review;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class MovieDTO {
@@ -16,7 +12,7 @@ public class MovieDTO {
   private Integer year;
   private String imgUrl;
   private String synopsis;
-  private GenreDTO genreDTO;
+  private GenreDTO genre;
 
   public MovieDTO() {
   }
@@ -37,7 +33,7 @@ public class MovieDTO {
     year = movie.getYear();
     imgUrl = movie.getImgUrl();
     synopsis = movie.getSynopsis();
-    genreDTO = new GenreDTO(movie.getGenre());
+    genre = new GenreDTO(movie.getGenre());
   }
 
   public Long getId() {
@@ -88,12 +84,12 @@ public class MovieDTO {
     this.synopsis = synopsis;
   }
 
-  public GenreDTO getGenreDTO() {
-    return genreDTO;
+  public GenreDTO getGenre() {
+    return genre;
   }
 
-  public void setGenreDTO(GenreDTO genreDTO) {
-    this.genreDTO = genreDTO;
+  public void setGenre(GenreDTO genre) {
+    this.genre = genre;
   }
 
   @Override

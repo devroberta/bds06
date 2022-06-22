@@ -1,6 +1,5 @@
 package com.devsuperior.movieflix.entities;
 
-import com.devsuperior.movieflix.dto.ReviewDTO;
 import com.devsuperior.movieflix.dto.ReviewMinDTO;
 
 import javax.persistence.Entity;
