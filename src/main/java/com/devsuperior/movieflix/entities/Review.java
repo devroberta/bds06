@@ -1,6 +1,6 @@
 package com.devsuperior.movieflix.entities;
 
-import com.devsuperior.movieflix.dto.ReviewMinDTO;
+import com.devsuperior.movieflix.dto.ReviewDTO;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +20,7 @@ public class Review implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String text;
 
   @ManyToOne
@@ -40,7 +41,7 @@ public class Review implements Serializable {
     this.user = user;
   }
 
-  public Review(ReviewMinDTO reviewDTO) {
+  public Review(ReviewDTO reviewDTO) {
     id = reviewDTO.getId();
     text = reviewDTO.getText();
     movie.setId(reviewDTO.getMovieId());

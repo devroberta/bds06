@@ -1,14 +1,12 @@
 package com.devsuperior.movieflix.services;
 
-import com.devsuperior.movieflix.dto.ReviewMinDTO;
+import com.devsuperior.movieflix.dto.ReviewDTO;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.repositories.ReviewRepository;
-import com.devsuperior.movieflix.services.exceptions.ForbiddenException;
-import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,18 +26,17 @@ public class ReviewService {
   private AuthService authService;
 
   @Transactional(readOnly=true)
-  public List<ReviewMinDTO> findReviewByMovie(Long movieId) {
+  public List<ReviewDTO> findReviewByMovie(Long movieId) {
     User user = authService.authenticated();
     Optional<Movie> movie = movieRepository.findById(movieId);
     List<ReviewMinProjection> list = repository.findReviewByMovieId(movieId);
-    List<ReviewMinDTO> result =
-            list.stream().map(x -> new ReviewMinDTO(x, movie.get(), user)).collect(Collectors.toList());
+    List<ReviewDTO> result =
+            list.stream().map(x -> new ReviewDTO(x, movie.get(), user)).collect(Collectors.toList());
     return result;
   }
 
   @Transactional
-  public ReviewMinDTO insert(ReviewMinDTO dto) {
-
+  public ReviewDTO insert(ReviewDTO dto) {
     User user = authService.authenticated();
     Optional<Movie> movie = movieRepository.findById(dto.getMovieId());
     Review review = new Review();
@@ -47,6 +44,6 @@ public class ReviewService {
     review.setMovie(movie.get());
     review.setUser(user);
     review = repository.save(review);
-    return new ReviewMinDTO(review);
+    return new ReviewDTO(review);
   }
 }

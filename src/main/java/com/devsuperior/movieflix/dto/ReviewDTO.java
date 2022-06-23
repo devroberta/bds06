@@ -5,44 +5,40 @@ import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
 import com.devsuperior.movieflix.projections.ReviewMinProjection;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class ReviewDTO {
 
   private Long id;
+
+  @NotBlank(message = "Campo de preenchimento obrigatório")
   private String text;
-  private User user;
   private Long movieId;
+  private UserDTO user;
 
   public ReviewDTO() {
   }
 
-  public ReviewDTO(Long id, String text, Long movieId) {
+  public ReviewDTO(Long id, String text, Long movieId, UserDTO userDTO) {
     this.id = id;
     this.text = text;
     this.movieId = movieId;
+    this.user = userDTO;
+  }
+
+  public ReviewDTO(ReviewMinProjection projection, Movie movie, User user) {
+    id = projection.getId();
+    text = projection.getText();
+    this.user = new UserDTO(user);
+    movieId = movie.getId();
   }
 
   public ReviewDTO(Review review) {
     id = review.getId();
     text = review.getText();
+    user = new UserDTO(review.getUser());
     movieId = review.getMovie().getId();
-    user = review.getUser();
-  }
-
-  public ReviewDTO(ReviewMinProjection review) {
-    id = review.getId();
-    text = review.getText();
-    //user = review.getUser();
-    movieId = review.getMovieId();
-  }
-
-
-  public ReviewDTO(Long id, String text, User user, Movie movie) {
-    this.id = id;
-    this.text = text;
-    this.user = user;
-    this.movieId = movie.getId();
   }
 
   public Long getId() {
@@ -61,14 +57,6 @@ public class ReviewDTO {
     this.text = text;
   }
 
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
   public Long getMovieId() {
     return movieId;
   }
@@ -77,12 +65,20 @@ public class ReviewDTO {
     this.movieId = movieId;
   }
 
+  public UserDTO getUser() {
+    return user;
+  }
+
+  public void setUser(UserDTO user) {
+    this.user = user;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ReviewDTO reviewDTO = (ReviewDTO) o;
-    return Objects.equals(id, reviewDTO.id);
+    ReviewDTO that = (ReviewDTO) o;
+    return Objects.equals(id, that.id);
   }
 
   @Override
